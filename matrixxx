@@ -1,0 +1,38 @@
+digraph Vertical {
+	"x=0
+y=0" [label="x=0
+y=0"]
+	"y=1" [label="y=1"]
+	"x=0
+y=0" -> "y=1"
+	"y=1" [label="y=1"]
+	"y=2" [label="y=2"]
+	"y=1" -> "y=2"
+	"y=2" [label="y=2"]
+	"y=3" [label="y=3"]
+	"y=2" -> "y=3"
+	"y=3" [label="y=3"]
+	"y=4" [label="y=4"]
+	"y=3" -> "y=4"
+	"y=4" [label="y=4"]
+	"y=5" [label="y=5"]
+	"y=4" -> "y=5"
+	subgraph Horizontal {
+		rank=same
+		"x=1" [label="x=1"]
+		"x=0
+y=0" -> "x=1"
+		"x=1" [label="x=1"]
+		"x=2" [label="x=2"]
+		"x=1" -> "x=2"
+		"x=2" [label="x=2"]
+		"x=3" [label="x=3"]
+		"x=2" -> "x=3"
+		"x=3" [label="x=3"]
+		"x=4" [label="x=4"]
+		"x=3" -> "x=4"
+		"x=4" [label="x=4"]
+		"x=5" [label="x=5"]
+		"x=4" -> "x=5"
+	}
+}
