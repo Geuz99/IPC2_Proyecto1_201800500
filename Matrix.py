@@ -143,14 +143,18 @@ class listaEnLista:
         listaCabecera = lista.head
         listaCabeceraY = lista.head
         tempx = listaCabecera.next
+        tempxx = listaCabecera.next
         dot = Digraph("Vertical")
         tod = Digraph("Horizontal")
         tod.attr(rank='same')
         aux = 0
         listaCabeceraY = listaCabeceraY.abajo
+        tempy = listaCabeceraY.abajo
+        tempyy = listaCabeceraY.abajo
+
         while listaCabecera.next:
             if aux == 0:
-                dot.node("x=" + str(listaCabecera.posX) + "\ny=" + str(listaCabeceraY.posY),
+                tod.node("x=" + str(listaCabecera.posX) + "\ny=" + str(listaCabeceraY.posY),
                          "x=" + str(listaCabecera.posX) + "\ny=" + str(listaCabeceraY.posY))
                 tod.node("x=" + str(listaCabecera.next.posX), "x=" + str(listaCabecera.next.posX))
                 tod.edge("x=" + str(listaCabecera.posX) + "\ny=" + str(listaCabeceraY.posY),
@@ -176,33 +180,62 @@ class listaEnLista:
                 dot.edge("y=" + str(listaCabeceraY.posY), "y=" + str(listaCabeceraY.abajo.posY))
                 listaCabeceraY = listaCabeceraY.abajo
 
-        c = 0
-        Cdata = tempx.abajo
         while tempx:
-            while Cdata:
-                if c == 0:
-                    dot.node(str(c), str(Cdata.data))
-                    dot.edge("x=" + str(tempx.posX), str(c))
-                    dot.edge(str(c), "x=" + str(tempx.posX))
-                    c = 1
-                    Cdata = Cdata.abajo
-                else:
-                    dot.node(str(c), str(Cdata.data))
-                    Cdata = Cdata.abajo
-                    c += 1
+            aux = 0
             Cdata = tempx.abajo
-            c = 0
             while Cdata:
-                if Cdata.abajo:
-                    dot.edge(str(c), str(c + 1))
-                    dot.edge(str(c + 1), str(c))
+                if aux == 0:
+                    dot.node("x" + str(tempx.posX) + "y" + str(tempy.posY), str(Cdata.data))
+                    dot.edge("x=" + str(tempx.posX), "x" + str(tempx.posX) + "y" + str(tempy.posY))
+                    dot.edge("x" + str(tempx.posX) + "y" + str(tempy.posY), "x=" + str(tempx.posX))
+                    if Cdata.abajo:
+                        dot.edge("x" + str(tempx.posX) + "y" + str(tempy.posY),
+                                 "x" + str(tempx.posX) + "y" + str(tempy.abajo.posY))
+                        dot.edge("x" + str(tempx.posX) + "y" + str(tempy.abajo.posY),
+                                 "x" + str(tempx.posX) + "y" + str(tempy.posY))
+                    aux = 1
                     Cdata = Cdata.abajo
-                    c += 1
+                    tempy = tempy.abajo
                 else:
+                    dot.node("x" + str(tempx.posX) + "y" + str(tempy.posY), str(Cdata.data))
+                    if Cdata.abajo:
+                        dot.node("x" + str(tempx.posX) + "y" + str(tempy.abajo.posY), str(Cdata.abajo.data))
+                        dot.edge("x" + str(tempx.posX) + "y" + str(tempy.abajo.posY),
+                                 "x" + str(tempx.posX) + "y" + str(tempy.posY))
+                        dot.edge("x" + str(tempx.posX) + "y" + str(tempy.posY),
+                                 "x" + str(tempx.posX) + "y" + str(tempy.abajo.posY))
                     Cdata = Cdata.abajo
-                    continue
-
+                    tempy = tempy.abajo
             tempx = tempx.next
+
+        while tempyy:
+            aux = 0
+            Fdata = tempyy.next
+            while Fdata:
+                if aux == 0:
+                    tod.node("x" + str(tempxx.posX) + "y" + str(tempyy.posY), str(Fdata.data))
+                    tod.edge("y=" + str(tempyy.posY), "x" + str(tempxx.posX) + "y" + str(tempyy.posY))
+                    tod.edge("x" + str(tempxx.posX) + "y" + str(tempyy.posY), "y=" + str(tempyy.posY))
+                    if Fdata.next:
+                        tod.edge("x" + str(tempxx.posX) + "y" + str(tempyy.posY),
+                                 "x" + str(tempxx.next.posX) + "y" + str(tempyy.posY))
+                        tod.edge("x" + str(tempxx.next.posX) + "y" + str(tempyy.posY),
+                                 "x" + str(tempxx.posX) + "y" + str(tempyy.posY))
+                    aux = 1
+                    Fdata = Fdata.next
+                    tempxx = tempxx.next
+                else:
+                    dot.node("x" + str(tempxx.posX) + "y" + str(tempyy.posY), str(Fdata.data))
+                    if Fdata.next:
+                        dot.node("x" + str(tempxx.next.posX) + "y" + str(tempyy.posY), str(Fdata.next.data))
+                        tod.edge("x" + str(tempxx.next.posX) + "y" + str(tempyy.posY),
+                                 "x" + str(tempxx.posX) + "y" + str(tempyy.posY))
+                        tod.edge("x" + str(tempxx.posX) + "y" + str(tempyy.posY),
+                                 "x" + str(tempxx.next.posX) + "y" + str(tempyy.posY))
+                    Fdata = Fdata.next
+                    tempxx = tempxx.next
+
+            tempyy = tempyy.abajo
 
         dot.subgraph(tod)
         dot.render('matrixxx', view=True)
@@ -239,94 +272,6 @@ class listaEnLista:
                 continue
 
         dot.render('pruebL0LX', view=True)
-
-    def graphviz_y(self, lista, posY):
-        listaCabecera = lista.head
-        dot = Digraph(comment='The Round Table')
-        while listaCabecera.posY != int(posY):
-            listaCabecera = listaCabecera.abajo
-        dot.node("y=" + str(listaCabecera.posY), "y=" + str(posY))
-        temp = listaCabecera.next
-        c = 0
-        while temp is not None:
-            if c == 0:
-                dot.node(str(c), str(temp.data))
-                dot.edge("y=" + str(listaCabecera.posY), str(c))
-                dot.edge(str(c), "y=" + str(listaCabecera.posY))
-                c = 1
-                temp = temp.next
-            else:
-                dot.node(str(c), str(temp.data))
-                temp = temp.next
-                c += 1
-        c = 0
-        temp = listaCabecera.next
-        while temp is not None:
-            if temp.next is not None:
-                dot.edge(str(c), str(c + 1))
-                dot.edge(str(c + 1), str(c))
-                temp = temp.next
-                c += 1
-            else:
-                temp = temp.next
-                continue
-
-        dot.render('pruebL0LY', view=True)
-
-    def GG(self, lista):
-        listaCabeceraX = lista.head
-        graph = open("prueba.dot", "w")
-        graph.write("digraph G {\n")
-        graph.write("node [shape=box]")
-
-        while listaCabeceraX.next is not None:
-            temp = listaCabeceraX.abajo
-            m = "x=" + str(temp)
-            nfila = int(temp.posX)
-            namex = "x" + str(temp.posX)
-            m2 = namex + "[label=\"" + str(m) + "\"}\n"
-            graph.write(m2)
-            while temp is not None:
-                namenode = "nodo" + str(temp.posX) + str(temp.posY)
-                y = "\"" + str(temp.data) + "\""
-                node = namenode + "[label=\"" + y + "]"
-                graph.write(node + "\n")
-                graph.write(namex + "->" + namenode + "\n")
-                graph.write(namenode + "->" + namex + "\n")
-
-                namex = namenode
-                temp = temp.abajo
-            if nfila > 1:
-                graph.write("x" + str(nfila - 1) + "->" + "x" + str(nfila) + "\n")
-                graph.write("x" + str(nfila) + "->" + "x" + str(nfila - 1) + "\n")
-                graph.write('{rank="same";' + "x" + str(nfila - 1) + ";" + "x" + str(nfila) + "\n")
-
-                listaCabeceraX = listaCabeceraX.next
-
-            listaCabeceraY = lista.head
-            while listaCabeceraY is not None:
-                temp = listaCabeceraY.next
-                ncolumna = "y" + str(temp.posY)
-                rank = ncolumna + ";"
-                while temp is not None:
-                    nf = "nodo" + str(temp.posX) + str(temp.posY)
-                    graph.write(ncolumna + "->" + nf + "\n")
-                    graph.write(nf + "->" + ncolumna + "\n")
-                    rank = rank + str(nf) + ";"
-                    ncolumna = nf
-                    temp = temp.next
-
-                graph.write('{rank="same";' + rank + "}\n")
-
-                listaCabeceraY = listaCabeceraY.abajo
-
-            graph.write("}")
-            graph.close()
-            os.system('dot - Tpdf Grafica.dot -o Grafica.pdf')
-            try:
-                os.startfile("Grafica.pdf")
-            except:
-                print("algo paso")
 
 
 def main():
@@ -373,3 +318,4 @@ def imprimirCabeceras(lista, lCabecera):
 
 
 main()
+
