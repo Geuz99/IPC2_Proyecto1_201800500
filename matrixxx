@@ -8,16 +8,9 @@ y=0" -> "y=1"
 	"y=2" [label="y=2"]
 	"y=3" [label="y=3"]
 	"y=2" -> "y=3"
-	x1y1 [label=VERDE]
-	"x=1" -> x1y1
-	x1y1 -> "x=1"
-	x1y1 -> x1y2
-	x1y2 -> x1y1
-	x1y2 [label=ROJO]
-	x1y3 [label=AMARILLO]
-	x1y3 -> x1y2
-	x1y2 -> x1y3
-	x1y3 [label=AMARILLO]
+	x3y1 [label=M]
+	"x=3" -> x3y1
+	x3y1 -> "x=3"
 	subgraph Horizontal {
 		rank=same
 		"x=0
@@ -32,14 +25,5 @@ y=0" -> "x=1"
 		"x=2" [label="x=2"]
 		"x=3" [label="x=3"]
 		"x=2" -> "x=3"
-		x1y1 [label=VERDE]
-		"y=1" -> x1y1
-		x1y1 -> "y=1"
-		x2y2 [label=ROJO]
-		"y=2" -> x2y2
-		x2y2 -> "y=2"
-		x3y3 [label=AMARILLO]
-		"y=3" -> x3y3
-		x3y3 -> "y=3"
 	}
 }

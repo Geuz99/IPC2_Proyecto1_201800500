@@ -208,35 +208,6 @@ class listaEnLista:
                     tempy = tempy.abajo
             tempx = tempx.next
 
-        while tempyy:
-            aux = 0
-            Fdata = tempyy.next
-            while Fdata:
-                if aux == 0:
-                    tod.node("x" + str(tempxx.posX) + "y" + str(tempyy.posY), str(Fdata.data))
-                    tod.edge("y=" + str(tempyy.posY), "x" + str(tempxx.posX) + "y" + str(tempyy.posY))
-                    tod.edge("x" + str(tempxx.posX) + "y" + str(tempyy.posY), "y=" + str(tempyy.posY))
-                    if Fdata.next:
-                        tod.edge("x" + str(tempxx.posX) + "y" + str(tempyy.posY),
-                                 "x" + str(tempxx.next.posX) + "y" + str(tempyy.posY))
-                        tod.edge("x" + str(tempxx.next.posX) + "y" + str(tempyy.posY),
-                                 "x" + str(tempxx.posX) + "y" + str(tempyy.posY))
-                    aux = 1
-                    Fdata = Fdata.next
-                    tempxx = tempxx.next
-                else:
-                    dot.node("x" + str(tempxx.posX) + "y" + str(tempyy.posY), str(Fdata.data))
-                    if Fdata.next:
-                        dot.node("x" + str(tempxx.next.posX) + "y" + str(tempyy.posY), str(Fdata.next.data))
-                        tod.edge("x" + str(tempxx.next.posX) + "y" + str(tempyy.posY),
-                                 "x" + str(tempxx.posX) + "y" + str(tempyy.posY))
-                        tod.edge("x" + str(tempxx.posX) + "y" + str(tempyy.posY),
-                                 "x" + str(tempxx.next.posX) + "y" + str(tempyy.posY))
-                    Fdata = Fdata.next
-                    tempxx = tempxx.next
-
-            tempyy = tempyy.abajo
-
         dot.subgraph(tod)
         dot.render('matrixxx', view=True)
 
@@ -273,7 +244,7 @@ class listaEnLista:
 
         dot.render('pruebL0LX', view=True)
 
-
+'''
 def main():
     lCabecera = listaCabecera()
     lLista = listaEnLista()
@@ -318,4 +289,32 @@ def imprimirCabeceras(lista, lCabecera):
 
 
 main()
+'''
+'''
+        while tempyy:
+            aux = 0
+            Fdata = tempyy.next
+            while Fdata:
+                if aux == 0:
+                    tod.edge("y=" + str(tempyy.posY), "x" + str(tempxx.posX) + "y" + str(tempyy.posY))
+                    tod.edge("x" + str(tempxx.posX) + "y" + str(tempyy.posY), "y=" + str(tempyy.posY))
+                    if Fdata.next:
+                        tod.edge("x" + str(tempxx.posX) + "y" + str(tempyy.posY),
+                                 "x" + str(tempxx.next.posX) + "y" + str(tempyy.posY))
+                        tod.edge("x" + str(tempxx.next.posX) + "y" + str(tempyy.posY),
+                                 "x" + str(tempxx.posX) + "y" + str(tempyy.posY))
+                    aux = 1
+                    Fdata = Fdata.next
+                    tempxx = tempxx.next
+                else:
+                    if Fdata.next:
+                        tod.edge("x" + str(tempxx.next.posX) + "y" + str(tempyy.posY),
+                                 "x" + str(tempxx.posX) + "y" + str(tempyy.posY))
+                        tod.edge("x" + str(tempxx.posX) + "y" + str(tempyy.posY),
+                                 "x" + str(tempxx.next.posX) + "y" + str(tempyy.posY))
+                    Fdata = Fdata.next
+                    tempxx = tempxx.next
+
+            tempyy = tempyy.abajo
+'''
 
